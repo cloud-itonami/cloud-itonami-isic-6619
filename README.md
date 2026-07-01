@@ -32,6 +32,8 @@ ISO 8583 message + authorization + clearing batch + audit ledger
 No automated advice can settle a transaction, override a decline, or release
 a chargeback without governor approval and audit evidence.
 
+A live sample of the operator console is rendered in [docs/samples/operator-console.html](docs/samples/operator-console.html) — pure-data HTML output of the kotoba-lang capability UI.
+
 ## Capability layer
 
 This blueprint resolves its technology stack via
