@@ -32,9 +32,9 @@
     (is (= (get-in result ["record" "immutable"]) true))))
 
 (deftest settlement-validation-rules
-  (is (thrown? Exception (r/register-settlement-finalization "" "JPN" 0)))
-  (is (thrown? Exception (r/register-settlement-finalization "transaction-1" "" 0)))
-  (is (thrown? Exception (r/register-settlement-finalization "transaction-1" "JPN" -1))))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-settlement-finalization "" "JPN" 0)))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-settlement-finalization "transaction-1" "" 0)))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-settlement-finalization "transaction-1" "JPN" -1))))
 
 ;; ----------------------------- register-chargeback-release -----------------------------
 
@@ -52,9 +52,9 @@
     (is (= (get-in result ["record" "immutable"]) true))))
 
 (deftest chargeback-release-validation-rules
-  (is (thrown? Exception (r/register-chargeback-release "" "JPN" 0)))
-  (is (thrown? Exception (r/register-chargeback-release "transaction-1" "" 0)))
-  (is (thrown? Exception (r/register-chargeback-release "transaction-1" "JPN" -1))))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-chargeback-release "" "JPN" 0)))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-chargeback-release "transaction-1" "" 0)))
+  (is (thrown? #?(:clj Exception :cljs js/Error) (r/register-chargeback-release "transaction-1" "JPN" -1))))
 
 (deftest history-is-append-only
   (let [c1 (r/register-settlement-finalization "transaction-1" "JPN" 0)
