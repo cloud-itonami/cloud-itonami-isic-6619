@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Transaction Processing and Settlement | cloud-itonami-isic-6619</title>
+  <meta name="description" content="Card Transaction Processing and Settlement — governed open occupation blueprint (ISIC 6619).">
+  <style>
+    :root { --bg:#f5f7fa; --card:#fff; --fg:#1b1f24; --muted:#57606a; --accent:#1e3a8a; --line:#d0d7de; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#0d1117; --card:#161b22; --fg:#e6edf3; --muted:#8d96a0; --accent:#58a6ff; --line:#30363d; }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: linear-gradient(135deg, var(--bg), #c3cfe2);
+           min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; color: var(--fg); }
+    .container { max-width: 800px; width: 100%; background: var(--card); border-radius: 12px;
+                 box-shadow: 0 10px 40px rgba(0,0,0,.1); padding: 48px 40px; border: 1px solid var(--line); }
+    h1 { font-size: 1.85rem; color: var(--accent); margin-bottom: 8px; }
+    .badge { display: inline-block; background: #e0e7ff; color: var(--accent); padding: 3px 10px;
+             border-radius: 4px; font-size: .85rem; font-weight: 600; margin-bottom: 20px; }
+    @media (prefers-color-scheme: dark) { .badge { background: #1f2a44; } }
+    .pitch { border-left: 4px solid var(--accent); padding-left: 16px; margin: 20px 0 28px; color: var(--muted); line-height: 1.7; }
+    .pitch p { margin-bottom: 10px; }
+    .meta { font-size: .9rem; color: var(--muted); margin-bottom: 24px; }
+    .meta code { background: var(--bg); padding: 1px 6px; border-radius: 4px; }
+    .cta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    @media (max-width: 560px) { .cta { grid-template-columns: 1fr; } }
+    .cta a { display: block; text-align: center; text-decoration: none; padding: 14px 18px;
+             border-radius: 8px; font-weight: 600; }
+    .cta .primary { background: var(--accent); color: #fff; }
+    .cta .secondary { border: 1.5px solid var(--accent); color: var(--accent); }
+    ul.links { list-style: none; font-size: .95rem; }
+    ul.links li { margin: 8px 0; }
+    a { color: var(--accent); }
+    footer { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--line);
+             font-size: .85rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Card Transaction Processing and Settlement</h1>
+    <div class="badge">ISIC 6619 · maturity implemented</div>
+    <div class="pitch">
+      <p>Open Business Blueprint for ISIC Rev.5 6619: other activities auxiliary to financial service activities -- card transaction processing and settlement. This repository publishes a card- processing actor -- transaction intake, jurisdiction assessment, fraud screening, settlement finalization and chargeback-hold release -- as an OSS business that any qualified operator can fork, deploy, run, improve and sell.</p>
+      <p>Built on this workspace's [langgraph-clj](https://github.com/com-junkawasaki/langgraph-clj) StateGraph runtime (portable .cljc, supervised superstep loop, interrupts, Datomic/in-mem checkpoints) -- the same actor pattern as every prior actor in this fleet ([cloud-itonami-isic-6511](https://github.com/cloud-itonami/cloud-itonami-isic-6511), [6512](https://github.com/cloud-itonami/cloud-itonami-isic-6512), [6621](https://github.com/cloud-itonami/cloud-itonami-isic-6621), [6622](https://github.com/cloud-itonami/cloud-itonami-isic-6622), [6629](https://github.com/cloud-itonami/cloud-itonami-isic-6629), [6520](https://github.com/cloud-itonami/cloud-itonami-isic-6520), [6530](https://github.com/cloud-itonami/cloud-itonami-isic-6530), [6820](https://github.com/cloud-itonami/cloud-itonami-isic-6820), [6612](https://github.com/cloud-itonami/cloud-itonami-isic-6612), [6492](https://github.com/cloud-itonami/cloud-itonami-isic-6492), [6920](https://github.com/cloud-itonami/cloud-itonami-isic-6920), [6611](https://github.com/cloud-itonami/cloud-itonami-isic-6611), [7120](https://github.com/cloud-itonami/cloud-itonami-isic-7120), [8620](https://github.com/cloud-itonami/cloud-itonami-isic-8620), [8530](https://github.com/cloud-itonami/cloud-itonami-isic-8530), [9200](https://github.com/cloud-itonami/cloud-itonami-isic-9200), [7500](https://github.com/cloud-itonami/cloud-itonami-isic-7500), [9603](https://github.com/cloud-itonami/cloud-itonami-isic-9603), [9521](https://github.com/cloud-itonami/cloud-itonami-isic-9521), [9321](https://github.com/cloud-itonami/cloud-itonami-isic-9321), [8730](https://github.com/cloud-itonami/cloud-itonami-isic-8730), [9102](https://github.com/cloud-itonami/cloud-itonami-isic-9102), [9103](https://github.com/cloud-itonami/cloud-itonami-isic-9103), [9602](https://github.com/cloud-itonami/cloud-itonami-isic-9602), [9000](https://github.com/cloud-itonami/cloud-itonami-isic-9000), [8890](https://github.com/cloud-itonami/cloud-itonami-isic-8890), [8610](https://github.com/cloud-itonami/cloud-itonami-isic-8610), [9311](https://github.com/cloud-itonami/cloud-itonami-isic-9311), [8510](https://github.com/cloud-itonami/cloud-itonami-isic-8510), [9412](https://github.com/cloud-itonami/cloud-itonami-isic-9412), [6491](https://github.com/cloud-itonami/cloud-itonami-isic-6491), [8720](https://github.com/cloud-itonami/cloud-itonami-isic-8720), [8521](https://github.com/cloud-itonami/cloud-itonami-isic-8521)) -- a third financial-services vertical alongside 6492's credit granting and 6491's financial leasing, but for card-payment processing/ settlement rather than lending. Here it is Card Advisor ⊣ Card Settlement Governor.</p>
+      <p>&gt; Why an actor layer at all? An LLM is great at drafting a &gt; transaction-intake summary, normalizing records, and checking &gt; whether a transaction's own settlement amount actually stays within &gt; its own authorized amount -- but it has no notion of which &gt; jurisdiction's card-settlement/chargeback-dispute requirements are &gt; official, no license to finalize a real settlement or release a &gt; real chargeback hold, and no way to know on its own whether a fraud &gt; flag against the transaction has actually stayed unresolved. &gt; Letting it finalize a settlement or release a chargeback hold &gt; directly invites fabricated jurisdiction citations, a settlement &gt; over-charging its own granted authorization, and an unresolved &gt; fraud flag being quietly overlooked -- and liability, and financial &gt; risk, for whoever runs it. This project seals the Card Advisor into &gt; a single node and wraps it with an independent Card Settlement &gt; Governor, a human approval workflow, and an immutable audit &gt; ledger.</p>
+    </div>
+    <p class="meta">Domain <code>finance/card-settlement</code> · Governor <code>card-settlement-governor</code> · License <code>AGPL-3.0-or-later</code></p>
+    <div class="cta">
+      <a class="primary" href="https://itonami.cloud/isco-1212/">Fork + self-host claim</a>
+      <a class="secondary" href="https://itonami.cloud/docs/go-live.md">Paid go-live path</a>
+    </div>
+    <ul class="links">
+      <li><a href="https://github.com/cloud-itonami/cloud-itonami-isic-6619">GitHub repository</a></li>
+      <li><a href="./operator-quickstart.md">Operator quickstart</a></li>
+      <li><a href="https://github.com/cloud-itonami/cloud-itonami-isic-6619/blob/main/blueprint.edn">blueprint.edn</a></li>
+      <li><a href="https://github.com/cloud-itonami/cloud-itonami-isic-6619/blob/main/README.md">README</a></li>
+    </ul>
+    <footer>
+      <p>Open occupation blueprint — no invented usage or revenue metrics. Product face generated for impl-product maturity (Lane C).</p>
+    </footer>
+  </main>
+</body>
+</html>
