@@ -39,10 +39,9 @@
   immutable log -- the audit trail a merchant/cardholder trusting a
   processor needs, and the evidence an operator needs if a settlement
   or chargeback release is later disputed."
-  (:require #?(:clj  [clojure.edn :as edn]
-               :cljs [cljs.reader :as edn])
-            [card.registry :as registry]
-            [langchain.db :as d]))
+  (:require [card.registry :as registry]
+            [langchain.db :as d]
+            [langchain-store.core :as ls]))
 
 (defprotocol Store
   (transaction [s id])
@@ -191,9 +190,6 @@
    :settlement-sequence/jurisdiction   {:db/unique :db.unique/identity}
    :chargeback-sequence/jurisdiction   {:db/unique :db.unique/identity}})
 
-(defn- enc [v] (pr-str v))
-(defn- dec* [s] (when s (edn/read-string s)))
-
 (defn- transaction->tx [{:keys [id merchant-name settlement-amount authorized-amount fraud-flag?
                                 settled? chargeback-released?
                                 jurisdiction status settlement-number release-number]}]
@@ -234,25 +230,25 @@
          (map #(pull->transaction (d/pull (d/db conn) transaction-pull [:transaction/id %])))
          (sort-by :id)))
   (fraud-screen-of [_ id]
-    (dec* (d/q '[:find ?p . :in $ ?tid
+    (ls/dec* (d/q '[:find ?p . :in $ ?tid
                 :where [?k :fraud-screen/transaction-id ?tid] [?k :fraud-screen/payload ?p]]
               (d/db conn) id)))
   (assessment-of [_ transaction-id]
-    (dec* (d/q '[:find ?p . :in $ ?tid
+    (ls/dec* (d/q '[:find ?p . :in $ ?tid
                 :where [?a :assessment/transaction-id ?tid] [?a :assessment/payload ?p]]
               (d/db conn) transaction-id)))
   (ledger [_]
     (->> (d/q '[:find ?s ?f :where [?e :ledger/seq ?s] [?e :ledger/fact ?f]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (settlement-history [_]
     (->> (d/q '[:find ?s ?r :where [?e :settlement/seq ?s] [?e :settlement/record ?r]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (chargeback-history [_]
     (->> (d/q '[:find ?s ?r :where [?e :chargeback/seq ?s] [?e :chargeback/record ?r]] (d/db conn))
          (sort-by first)
-         (mapv (comp dec* second))))
+         (mapv (comp ls/dec* second))))
   (next-settlement-sequence [_ jurisdiction]
     (or (d/q '[:find ?n . :in $ ?j
               :where [?e :settlement-sequence/jurisdiction ?j] [?e :settlement-sequence/next ?n]]
@@ -273,10 +269,10 @@
       (d/transact! conn [(transaction->tx value)])
 
       :assessment/set
-      (d/transact! conn [{:assessment/transaction-id (first path) :assessment/payload (enc payload)}])
+      (d/transact! conn [{:assessment/transaction-id (first path) :assessment/payload (ls/enc payload)}])
 
       :fraud-screen/set
-      (d/transact! conn [{:fraud-screen/transaction-id (first path) :fraud-screen/payload (enc payload)}])
+      (d/transact! conn [{:fraud-screen/transaction-id (first path) :fraud-screen/payload (ls/enc payload)}])
 
       :transaction/mark-settled
       (let [transaction-id (first path)
@@ -286,7 +282,7 @@
         (d/transact! conn
                      [(transaction->tx (assoc transaction-patch :id transaction-id))
                       {:settlement-sequence/jurisdiction jurisdiction :settlement-sequence/next next-n}
-                      {:settlement/seq (count (settlement-history s)) :settlement/record (enc (get result "record"))}])
+                      {:settlement/seq (count (settlement-history s)) :settlement/record (ls/enc (get result "record"))}])
         result)
 
       :transaction/mark-released
@@ -297,12 +293,12 @@
         (d/transact! conn
                      [(transaction->tx (assoc transaction-patch :id transaction-id))
                       {:chargeback-sequence/jurisdiction jurisdiction :chargeback-sequence/next next-n}
-                      {:chargeback/seq (count (chargeback-history s)) :chargeback/record (enc (get result "record"))}])
+                      {:chargeback/seq (count (chargeback-history s)) :chargeback/record (ls/enc (get result "record"))}])
         result)
       nil)
     s)
   (append-ledger! [s fact]
-    (d/transact! conn [{:ledger/seq (count (ledger s)) :ledger/fact (enc fact)}])
+    (d/transact! conn [{:ledger/seq (count (ledger s)) :ledger/fact (ls/enc fact)}])
     fact)
   (with-transactions [s transactions]
     (when (seq transactions) (d/transact! conn (mapv transaction->tx (vals transactions)))) s))
