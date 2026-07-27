@@ -55,6 +55,17 @@
   (and (number? settlement-amount) (number? authorized-amount)
        (> settlement-amount authorized-amount)))
 
+(defn settlement-amount-exceeds-authorized-checkable?
+  "Are both sides of `settlement-amount-exceeds-authorized?` actually recorded?
+
+  That predicate answers only `over` / `not over`, and its
+  `(and (number? ...) (number? ...) ...)` guard made every un-recorded
+  case fall through as `not over` -- an entity missing either figure
+  passed the limit check silently. Callers must ask this first:
+  un-checkable is not within limits."
+  [{:keys [settlement-amount authorized-amount]}]
+  (boolean (and (number? settlement-amount) (number? authorized-amount))))
+
 (defn register-settlement-finalization
   "Validate + construct the SETTLEMENT-FINALIZATION registration
   DRAFT -- the processor's own legal act of finalizing a real
