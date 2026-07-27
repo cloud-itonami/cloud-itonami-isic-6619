@@ -167,7 +167,17 @@
   [{:keys [op subject]} st]
   (when (= op :settlement/finalize)
     (let [t (store/transaction st subject)]
-      (when (registry/settlement-amount-exceeds-authorized? t)
+      (cond
+        ;; Either figure missing or non-numeric: the limit cannot be
+        ;; evaluated, so it is not "within limits". This used to fall
+        ;; through as "not over" and proceed.
+        ;; Only when the entity EXISTS: a missing entity is a different
+        ;; violation that another gate owns, and firing here would mask it.
+        (and t (not (registry/settlement-amount-exceeds-authorized-checkable? t)))
+        [{:rule :settlement-amount-exceeds-authorized
+          :detail "上限判定に必要な値が記録されていない -- 限度内と断定できないため進めない"}]
+
+        (registry/settlement-amount-exceeds-authorized? t)
         [{:rule :settlement-amount-exceeds-authorized
           :detail (str subject " の決済金額(" (:settlement-amount t)
                       ")がオーソリ金額(" (:authorized-amount t) ")を超過")}]))))
