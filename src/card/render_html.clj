@@ -74,7 +74,7 @@
   Usage: `clojure -M:dev:render-html [out-file]`
   (default `docs/samples/operator-console.html`)."
   (:require [jp-go-dds.skin]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [langgraph.graph :as g]
             [card.facts :as facts]
             [card.governor :as governor]
@@ -213,7 +213,7 @@
 
 (def ^:private approver-key?
   #(contains? #{"approved-by" "approved_by" "approver" "approved-by-id" "approved_by_id"}
-              (str/lower-case %)))
+              (str/lower %)))
 
 (defn- registers
   "The named registers this store actually exposes through its `Store`
