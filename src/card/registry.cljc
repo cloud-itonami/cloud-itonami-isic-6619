@@ -26,7 +26,7 @@
   finalizing the settlement or releasing the chargeback hold itself
   (that is `card.operation`'s `:settlement/finalize`/`:chargeback/
   release`, always human-gated)."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (defn- unsigned-certificate
   "Every certificate this actor produces is UNSIGNED -- signature is the
@@ -82,7 +82,7 @@
     (throw (ex-info "settlement-finalization: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "settlement-finalization: sequence must be >= 0" {})))
-  (let [settlement-number (str (str/upper-case jurisdiction) "-STL-" (zero-pad sequence 6))
+  (let [settlement-number (str (str/upper jurisdiction) "-STL-" (zero-pad sequence 6))
         record {"record_id" settlement-number
                 "kind" "settlement-finalization-draft"
                 "transaction_id" transaction-id
@@ -107,7 +107,7 @@
     (throw (ex-info "chargeback-release: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "chargeback-release: sequence must be >= 0" {})))
-  (let [release-number (str (str/upper-case jurisdiction) "-CBR-" (zero-pad sequence 6))
+  (let [release-number (str (str/upper jurisdiction) "-CBR-" (zero-pad sequence 6))
         record {"record_id" release-number
                 "kind" "chargeback-release-draft"
                 "transaction_id" transaction-id
