@@ -11,8 +11,8 @@ contracts.
 
 ```bash
 # in kotoba-lang/card / banking / swift:
-clojure -X:test
-clojure -M:lint
+kbb -X:test
+kbb -M:lint
 ```
 
 Keep changes small and include tests for PAN/Luhn validation, ISO 8583
