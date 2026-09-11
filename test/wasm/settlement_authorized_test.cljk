@@ -3,7 +3,7 @@
   wasm/settlement_authorized.kotoba, see wasm/README.md) via
   kototama.tender -- proves card.governor's settlement-amount-exceeds-
   authorized check (`settlement-amount-exceeds-authorized-violations` in
-  src/card/governor.cljc, backed by `card.registry/settlement-amount-
+  src/card/governor.cljk, backed by `card.registry/settlement-amount-
   exceeds-authorized?`) runs as a real WASM guest, not just as JVM
   Clojure.
 
