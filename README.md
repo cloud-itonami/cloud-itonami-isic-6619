@@ -194,14 +194,14 @@ capability reference.
 
 | File | Role |
 |---|---|
-| `src/card/store.cljc` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + separate settlement-finalization/chargeback-release history. No raw PAN field anywhere in the schema. No dynamically-filed sub-record -- both actuation ops act directly on a pre-seeded transaction, and the double-actuation guards check dedicated `:settled?`/`:chargeback-released?` booleans rather than a `:status` value |
-| `src/card/registry.cljc` | Settlement-finalization + chargeback-release draft records, plus `settlement-amount-exceeds-authorized?` -- the THIRD non-temporal instance of this fleet's MAXIMUM-ceiling check family (`facility`/`school` established the first two), directly implementing this blueprint's own "partial approvals never over-charge the granted amount" Trust Control |
-| `src/card/facts.cljc` | Per-jurisdiction card-settlement/chargeback-dispute catalog with an official spec-basis citation per entry, honest coverage reporting |
-| `src/card/cardadvisor.cljc` | **Card Advisor** -- `mock-advisor` ‖ `llm-advisor`; intake/assessment/fraud-screening/settlement-finalization/chargeback-release proposals; never handles a raw PAN |
-| `src/card/governor.cljc` | **Card Settlement Governor** -- 4 HARD checks (spec-basis · evidence-incomplete · settlement-amount-exceeds-authorized, pure ground-truth MAXIMUM-ceiling recompute · fraud-flag-unresolved, unconditional evaluation, the TWENTY-FOURTH grounding of this discipline and FIRST specifically for the fraud-flag concept) + already-settled/already-released guards + 1 soft (confidence/actuation gate) |
-| `src/card/phase.cljc` | **Phase 0→3** -- read-only → assisted intake → assisted assess → supervised (both settlement and chargeback-release always human; transaction intake is the ONLY auto-eligible op, no direct capital risk) |
-| `src/card/operation.cljc` | **OperationActor** -- langgraph-clj StateGraph |
-| `src/card/sim.cljc` | demo driver |
+| `src/card/store.cljk` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + separate settlement-finalization/chargeback-release history. No raw PAN field anywhere in the schema. No dynamically-filed sub-record -- both actuation ops act directly on a pre-seeded transaction, and the double-actuation guards check dedicated `:settled?`/`:chargeback-released?` booleans rather than a `:status` value |
+| `src/card/registry.cljk` | Settlement-finalization + chargeback-release draft records, plus `settlement-amount-exceeds-authorized?` -- the THIRD non-temporal instance of this fleet's MAXIMUM-ceiling check family (`facility`/`school` established the first two), directly implementing this blueprint's own "partial approvals never over-charge the granted amount" Trust Control |
+| `src/card/facts.cljk` | Per-jurisdiction card-settlement/chargeback-dispute catalog with an official spec-basis citation per entry, honest coverage reporting |
+| `src/card/cardadvisor.cljk` | **Card Advisor** -- `mock-advisor` ‖ `llm-advisor`; intake/assessment/fraud-screening/settlement-finalization/chargeback-release proposals; never handles a raw PAN |
+| `src/card/governor.cljk` | **Card Settlement Governor** -- 4 HARD checks (spec-basis · evidence-incomplete · settlement-amount-exceeds-authorized, pure ground-truth MAXIMUM-ceiling recompute · fraud-flag-unresolved, unconditional evaluation, the TWENTY-FOURTH grounding of this discipline and FIRST specifically for the fraud-flag concept) + already-settled/already-released guards + 1 soft (confidence/actuation gate) |
+| `src/card/phase.cljk` | **Phase 0→3** -- read-only → assisted intake → assisted assess → supervised (both settlement and chargeback-release always human; transaction intake is the ONLY auto-eligible op, no direct capital risk) |
+| `src/card/operation.cljk` | **OperationActor** -- langgraph-clj StateGraph |
+| `src/card/sim.cljk` | demo driver |
 | `test/card/*_test.clj` | governor contract · phase invariants · store parity · registry conformance · facts coverage |
 | `wasm/settlement_authorized.kotoba` | `.kotoba`-wasm port of `settlement-amount-exceeds-authorized?`'s pure comparison core, compiled via `kotoba wasm emit` and hosted under `kototama.tender` (see `wasm/README.md`) |
 

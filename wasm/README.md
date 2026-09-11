@@ -3,11 +3,11 @@
 `settlement_authorized.kotoba` is a port of `card.registry/settlement-
 amount-exceeds-authorized?`'s pure ground-truth comparison — does a
 transaction's own settlement amount exceed its own authorized amount?
-(see `src/card/registry.cljc` lines ~46-56, used by `card.governor/
+(see `src/card/registry.cljk` lines ~46-56, used by `card.governor/
 settlement-amount-exceeds-authorized-violations` at `src/card/
 governor.cljc` lines ~160-173) — into the minimal `.kotoba` language
 subset, compiled to a real WASM module via `kotoba wasm emit`, and hosted
-via `kototama.tender` (`test/wasm/settlement_authorized_test.clj`).
+via `kototama.tender` (`test/wasm/settlement_authorized_test.cljk`).
 
 This follows the same `kotoba wasm emit` → `kototama.tender` pattern
 already proven by `cloud-itonami-isic-6492`'s `wasm/affordability.kotoba`,
