@@ -1,5 +1,5 @@
 (ns card.sim
-  "Demo driver -- `clojure -M:dev:run`. Walks a clean transaction
+  "Demo driver -- `kbb -M:dev:run`. Walks a clean transaction
   through intake -> jurisdiction assessment -> fraud screening ->
   settlement-finalization proposal (always escalates) -> human
   approval -> commit, then through chargeback-release proposal

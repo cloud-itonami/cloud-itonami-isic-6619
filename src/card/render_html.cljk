@@ -71,7 +71,7 @@
   for the page is sorted before rendering. Two consecutive runs produce
   a byte-identical file.
 
-  Usage: `clojure -M:dev:render-html [out-file]`
+  Usage: `kbb -M:dev:render-html [out-file]`
   (default `docs/samples/operator-console.html`)."
   (:require [jp-go-dds.skin]
             [kotoba.lang.text :as str]
@@ -364,7 +364,7 @@
 
      "  <section class=\"card\">\n"
      "    <h2>What this page is</h2>\n"
-     "    <p>Generated at build time by <code>card.render-html</code> (<code>clojure -M:dev:render-html</code>) by actually running this repo's actor: "
+     "    <p>Generated at build time by <code>card.render-html</code> (<code>kbb -M:dev:render-html</code>) by actually running this repo's actor: "
      "<code>card.operation</code> (a langgraph-clj StateGraph) &rarr; <code>card.cardadvisor</code> &rarr; <code>card.governor</code> &rarr; "
      "<code>card.phase</code> &rarr; <code>card.store</code>. Every number below was read back out of that run — "
      (esc (count runs)) " actor runs and human resumes, " (esc (count ledger)) " append-only ledger facts, "

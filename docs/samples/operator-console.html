@@ -2469,7 +2469,7 @@ img,svg { max-width: 100%; height: auto; }
 <main>
   <section class="card">
     <h2>What this page is</h2>
-    <p>Generated at build time by <code>card.render-html</code> (<code>clojure -M:dev:render-html</code>) by actually running this repo's actor: <code>card.operation</code> (a langgraph-clj StateGraph) &rarr; <code>card.cardadvisor</code> &rarr; <code>card.governor</code> &rarr; <code>card.phase</code> &rarr; <code>card.store</code>. Every number below was read back out of that run — 17 actor runs and human resumes, 12 append-only ledger facts, 6 un-overridable HARD holds, 5 human approvals.</p>
+    <p>Generated at build time by <code>card.render-html</code> (<code>kbb -M:dev:render-html</code>) by actually running this repo's actor: <code>card.operation</code> (a langgraph-clj StateGraph) &rarr; <code>card.cardadvisor</code> &rarr; <code>card.governor</code> &rarr; <code>card.phase</code> &rarr; <code>card.store</code>. Every number below was read back out of that run — 17 actor runs and human resumes, 12 append-only ledger facts, 6 un-overridable HARD holds, 5 human approvals.</p>
     <p class="muted">This actor never touches a raw PAN: <code>card.store</code>'s schema has no such field at all, so there is nothing to mask. Settlement and chargeback records produced here are UNSIGNED drafts — signing is the processor's own act, not this actor's.</p>
   </section>
   <section class="card">
