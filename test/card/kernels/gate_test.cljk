@@ -18,7 +18,7 @@
             [card.governor :as governor]
             [card.kernels.gate :as gate]
             [card.store :as store]
-            [clojure.test :refer [deftest is testing]]))
+            [kotoba.test :refer [deftest is testing]]))
 
 (deftest battery-lock
   (is (= gate/battery-case-count (gate/battery-pass-count))
