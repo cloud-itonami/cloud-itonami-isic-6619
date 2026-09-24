@@ -1,0 +1,43 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:dev:physics` runs it.
+;;
+;; README "Robotics premise": a card-fulfillment and ATM-servicing robot
+;; handles physical card and cash logistics (ISIC 6619, other activities
+;; auxiliary to financial services). Its physical work: wheeling a cart of
+;; cash cassettes from the vault to the ATM lobby, swapping a cassette in the
+;; ATM safe, and laminating card sheets in the fulfillment room.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isic-6619"
+ :cases
+ [{:id :cassette-cart-to-atm-lobby
+   :kind :transport
+   :procedure "servicing robot wheels a cart of loaded cash cassettes from the cash vault to the ATM lobby over a short ramp"
+   :params {:mass-kg 80.0 :distance-m 40.0 :v-max-mps 1.0 :a-max-mps2 0.5
+            :brake-decel-mps2 1.0 :drive-force-n 250.0 :crr 0.02 :slope-deg 3.0
+            :cog-height-m 0.55 :support-half-length-m 0.30 :max-time-s 1800.0}
+   :sweep {:param :payload-kg :values [20.0 60.0 120.0 200.0 280.0]}
+   :quantity :cycle-time-s
+   :limit {:max 60.0 :basis "estimate: ATM out of service for no more than a few minutes per replenishment, of which one leg"}
+   :boundary {:lo 10.0 :hi 500.0}}
+  {:id :swap-cassette-in-atm-safe
+   :kind :manipulator
+   :procedure "arm lifts a loaded cash cassette off the cart and slides it into the ATM safe's cassette slot"
+   :params {:l1-m 0.50 :l2-m 0.45 :m1-kg 5.0 :m2-kg 3.5
+            :from [0.40 0.60] :to [0.75 0.30] :duration-s 2.5 :steps 500}
+   :sweep {:param :payload-kg :values [2.0 4.0 6.0 8.0 11.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 100.0 :basis "estimate: continuous shoulder torque of a 10-12 kg-class collaborative arm"}
+   :boundary {:lo 0.5 :hi 30.0}}
+  {:id :card-sheet-lamination
+   :kind :thermal
+   :procedure "lamination book (PVC card sheets, carrier plates and press pads) between heated press platens; half the book is modelled (mid-plane symmetry) and the mid-plane must reach bonding temperature"
+   :params {:conductivity-w-mk 0.16 :density-kg-m3 1400.0 :specific-heat-j-kgk 1000.0
+            :t-hot-c 150.0 :h-front-w-m2k 500.0 :h-back-w-m2k 0.0
+            :threshold-c 130.0 :duration-s 3600.0 :nodes 11}
+   :sweep {:param :thickness-m :values [0.002 0.004 0.006 0.009 0.012]}
+   :quantity :time-to-threshold-s
+   :limit {:max 600.0 :basis "estimate: heating dwell of one lamination cycle; bonding temperature 130 C and platen 150 C are typical PVC laminating values, not a cited standard"}
+   :boundary {:lo 0.001 :hi 0.02}}]}
